@@ -104,32 +104,36 @@ The core logic is implemented in Jupyter Notebooks using **PyTorch**.
 └── requirements.txt
 ---
 ```
-## 🎹 How to Run (Reproduction)
-Due to the size of the MAESTRO dataset (~GBs), data is not included in this repo.
-
+🎹 How to Run (Reproduction)
 1. Clone the repo
 
 ```
 
 git clone https://github.com/jpmurad2001/polyphonic-music-gen.git
 
-```
-
-2. Download the Dataset
-
-• Get the MAESTRO (MIDI only) dataset from Magenta TensorFlow(https://magenta.tensorflow.org/datasets/maestro).
-
-• Unzip it into a folder named `data/` in the root directory.
-
-3. Install Dependencies
+cd polyphonic-music-gen
 
 ```
+
+2. Auto-Setup (Download Data & Dependencies)
+
+Instead of manually downloading the datasets, simply run the setup script:
+
+```
+
+# First, install dependencies
 
 pip install -r requirements.txt
 
+# Then, run the data downloader
+
+python download_data.py
+
 ```
 
-4. Train
+This script will automatically fetch the MAESTRO v3.0.0 dataset from Google servers and extract it to the `data/` folder.
+
+3. Train
 
 Open `notebooks/transformer_maestro_v2.ipynb` via Jupyter Lab or Google Colab and run the cells.
 
