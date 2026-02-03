@@ -21,6 +21,57 @@ This project benchmarks two Deep Learning approaches to generate piano music bas
 | **Training Efficiency** | Fast convergence | Computationally intensive (High VRAM) |
 | **Musicality** | Good for short phrases | **Superior structural complexity** |
 
+
+| **Musicality** | Good for short phrases | **Superior structural complexity** |
+
+---
+
+## 💻 Code Snippet (Model Architecture)
+
+The core of the project is a custom **Transformer** module engineered to handle polyphonic music sequences using PyTorch's `TransformerEncoder` layers combined with Learned Positional Embeddings:
+
+```python
+class transformer(nn.Module):
+    def __init__(self, d_model=1024, nhead=16, d_hid=16, nlayers=6, dropout=0.25, nembeds=128):
+        super().__init__()
+
+        # Learned Positional Encodings & Embeddings
+        self.pos_encoder = PositionalEncoding(d_model, dropout)
+        self.embeds = nn.Embedding(nembeds, d_model)
+        self.pos_embeds = PositionalEncoding(d_model, dropout)
+        
+        # Transformer Encoder Stack
+        layers = nn.TransformerEncoderLayer(d_model*3, nhead, d_hid, dropout, batch_first=True)
+        self.transformer_encoder = nn.TransformerEncoder(layers, nlayers)
+        
+        # Decoder Head
+        self.decoder = nn.Linear(d_model*3, nembeds*3)
+        self.d_model = d_model
+        
+        # Causal Mask (Prevent looking ahead)
+        self.mask = torch.triu(torch.ones(sequence_len, sequence_len) * float('-inf'), diagonal=1).to(device)
+
+    def forward(self, x, generate=False):
+        # 1. Embedding & Scaling
+        x = self.embeds(x) * math.sqrt(self.d_model)
+        x = self.pos_embeds(x)
+        
+        # 2. Reshape for Multi-head Attention
+        sp = x.shape
+        x = torch.reshape(x, (sp[0], sp[1], (self.d_model*3)))
+        
+        # 3. Pass through Transformer with Causal Mask
+        x = self.transformer_encoder(x, self.mask)
+        
+        # 4. Decode to Note Probabilities
+        x = self.decoder(x)
+        shap = x.shape
+        x = torch.reshape(x, (shap[0], shap[1], 3, shap[2]//3))
+        
+        if generate:
+            x = torch.argmax(x, dim=3)
+        return x
+
 ---
 
 ## 🛠️ Tech Stack & Engineering Challenges
