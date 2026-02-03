@@ -91,8 +91,6 @@ Open `notebooks/transformer_maestro_v2.ipynb` via Jupyter Lab or Google Colab an
 
 ---
 
-Author: João Pedro Murad | Production Engineer | Data Scientist | AI Enthusiast
-
 **Author:** João Pedro Murad
 *Production Engineer | Data Scientist | AI Enthusiast*
 
