@@ -111,7 +111,7 @@ Due to the size of the MAESTRO dataset (~GBs), data is not included in this repo
 
 ```
 
-git clone https://github.com/SEU_USUARIO/polyphonic-music-gen.git
+git clone https://github.com/jpmurad2001/polyphonic-music-gen.git
 
 ```
 
