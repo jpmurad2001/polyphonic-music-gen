@@ -1,0 +1,12 @@
+numpy
+pandas
+matplotlib
+seaborn
+torch
+tensorflow
+pretty_midi
+music21
+pynvml
+tqdm
+ipython
+midi2audio
